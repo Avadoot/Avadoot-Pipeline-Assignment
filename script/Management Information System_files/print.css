@@ -1,0 +1,661 @@
+
+
+/** File: stylesheets/print.css **/
+
+body,html {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font: 12px "Palatino", "Georgia", "Times New Roman";
+  line-height:1.6em;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.dont_print {
+  display: none !important;
+}
+
+.container {
+  width: 100%;
+}
+
+#site_log {
+  display: none;
+}
+
+#logged_user {
+  display: none;
+}
+
+#menu {
+  display: none;
+}
+
+#breadcrumbs {
+  display: none;
+}
+
+img {
+  border: 0px;
+}
+
+#page_actions {
+  display: none;
+}
+
+.progress {
+  /*display: none;*/
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  text-align: left;
+  padding: 2px 5px;
+  border-top: 0px !important;
+  border-bottom: 2px solid #666;
+}
+
+table td {
+  border-bottom: 1px solid #666;
+  padding: 2px 5px;
+}
+
+table td a {
+}
+
+table .star,
+table .checkbox,
+table .download,
+table .options,
+table .pinned,
+table .actions {
+  display: none;
+}
+
+table td.name span,
+table td.name a {
+  margin-right: 4px !important;
+}
+
+table td.name .details {
+  font-size: 0.8em;
+}
+
+table td.user,
+table td.due {
+  text-align: right;
+}
+
+table .comments,
+table .revisions,
+table .priority,
+table .revision_num,
+table .ticket_id {
+  width: 3em;
+  text-align: center;
+}
+
+table .meta {
+  width: 30%;
+}
+
+table dl dt {
+  width: 30%;
+  float: left;
+  text-align: right;
+}
+
+table dl dd {
+  margin-left: 35%;
+}
+
+.common_table_list .option.star,
+.common_table_list .right_options {
+  display: none;
+}
+
+.common_table_list .option.checkbox img {
+  vertical-align: middle;
+}
+
+#tabs {
+  display: none;
+}
+
+#print_preview_header {
+  display: none;
+}
+
+#project_icon {
+  float: right;
+}
+
+.section_name {
+  margin: 1em 0px 0.2em 0px;
+  padding: 0em 0.5em 0.5em 0.5em;
+  border-bottom: 3px solid #666;
+  font-size: 1.3em;
+}
+
+.section_name .section_options {
+  display: none;
+}
+
+.section_container {
+  padding: 0.5em 0.5em;
+}
+
+ul {
+  list-style: circle;
+}
+
+#footer {
+  display: none;
+}
+
+#page_title {
+  margin: 0px;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 5px solid #000;
+  font-size: 1.5em;
+}
+
+form {
+  /*display: none;*/
+}
+
+form label,
+form input,
+form textarea,
+form button,
+form select {
+  display: none;
+}
+
+.object_options {
+  display: none;
+}
+
+dl.properties {
+  border: 2px solid #666;
+  padding: 1em;
+}
+
+dl.properties dt {
+  width: 30%;
+  float: left;
+}
+
+dl.properties dd {
+  padding-left: 33%;
+  border-bottom: 1px solid #666;
+  margin-left: 0px;
+}
+
+dl.properties a {
+  text-decoration: none;
+}
+
+iframe {
+  display: none;
+}
+
+.mceEditor {
+  display: none;
+}
+
+.quick_comment_form {
+  display: none;
+}
+
+#page_details {
+  text-align: right;
+  font-size: 0.8em;
+  margin-top: 0px;
+}
+
+.resource h3 {
+  font-size: 1em;
+}
+
+.dontprint {
+  display: none;
+}
+
+ul.category_list {
+  display: none;
+}
+
+.details a {
+  border: 0px;
+  text-decoration: none;
+}
+
+.flash {
+  display: none;
+}
+
+.pagination {
+  display: none;
+}
+
+p {
+  padding: 0px;
+  margin: 0.4em 0em;
+}
+
+.project_row .icon {
+  width: 50px;
+}
+
+.project_row td.progress {
+  width: 22em;
+}
+
+.project_row .name dl {
+  margin: 0px;
+}
+
+.project_row .name dt {
+  width: 10em;
+  text-align: left;
+}
+
+.project_row .name dd {
+  margin-left: 10.5em;
+}
+
+.project_row .name h3 {
+  margin: 0px;
+}
+
+.project_progress {
+}
+
+.project_progress .progress_wrapper {
+  border: 1px solid #333;
+  padding: 2px 2px;
+  position: relative;
+}
+
+.project_progress .progress_wrapper .progress {
+  background: #999 !important;
+  overflow: visible;
+  height: 14px;
+  border: 2px solid #333;
+}
+
+@media print {
+  .project_progress .progress_wrapper .progress {
+    background: #999 !important;
+  }
+}
+
+.project_progress .progress span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+  position: absolute;
+  top: 1px;
+  font-weight: bold;
+}
+
+.project_progress p {
+  text-align: center;
+  font-size: 0.8em;
+  color: #666;
+}
+
+p.next_page {
+  display: none;
+}
+
+.empty_slate {
+  display: none;
+}
+
+.page_message {
+  background-repeat: no-repeat;
+  padding: 5px 10px 5px 31px;
+  border: 1px solid #ccc;
+  background-position: 10px 10px;
+}
+
+.activity {
+  zoom: 1;
+  overflow: hidden;
+  padding-bottom: 3px;
+}
+
+.activity .log_icon {
+  float: left;
+}
+
+.activity .log_time {
+  float: right;
+}
+
+.activity .log_info {
+  margin-left: 20px;
+}
+
+.activity .log_info_foot {
+  display: none;
+}
+
+.activity .object_star {
+  display: none;
+}
+
+.activity .log_info_body {
+  color: #999;
+}
+
+.activity a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.activity .project_link {
+  text-decoration: none !important;
+}
+
+#dashboard ul.dashboard_tabs {
+  display: none !important;
+  position: absolute;
+  left: -10000px;
+}
+
+#dashboard #dashboard_sidebars {
+  display: none !important;
+  position: absolute;
+  left: -10000px;
+}
+
+ul.company_users {
+  margin-left: 0px;
+  list-style: none;
+  padding-left: 0px;
+}
+
+/** File: modules/system/stylesheets/print.css **/
+
+#show_me {
+  display: none;
+}
+
+.project_details_buttons {
+  display: none;
+}
+
+#new_late_starred {
+  display: none;
+}
+
+.project_details_inner {
+  border: 2px solid #aaa;
+  padding: 2em;
+}
+
+.recent_activities_rss {
+  display: none;
+}
+
+.company_card {
+  border: 2px solid #aaa;
+  padding: 1em 2em 1.5em;
+  margin-bottom: 15px;
+}
+
+.company_card .icon {
+  float: left;
+  margin-top: -10px;
+}
+
+.company_card .meta {
+  margin-left: 85px;
+}
+
+.company_card .meta h2 {
+  margin-top: 0px;
+}
+
+.company_card .options {
+  display: none;
+}
+
+.user_card {
+  border-top: 2px solid #aaa;
+  padding: 0em 2em 0.5em;
+}
+
+.user_card .options {
+  display: none;
+}
+
+.user_card .local_time {
+  float: right;
+  font-size: 0.8em;
+}
+
+.user_card .icon {
+  float: left;
+  margin-top: -10px;
+}
+
+.user_card .meta {
+  margin-left: 85px;
+}
+
+.user_card .meta h2 {
+  margin-top: 0px;
+  font-size: 1.2em;
+  margin-bottom: 0px;
+}
+
+.details_list dt {
+  width: 100px;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+  text-align: right;
+}
+
+.details_list dd {
+  margin: 0px;
+  padding: 0px;
+  margin-left: 110px;
+}
+
+#assignments_filter {
+  display: none;
+}
+
+.assignments_filter_rss {
+  display: none;
+}
+
+#assignments_filter_details {
+  display: none !important;;
+}
+
+/** File: modules/resources/stylesheets/print.css **/
+
+table.discussions td {
+  padding: 5px 5px;
+}
+
+table.discussions td.icon {
+  display: none;
+}
+
+table.discussions td.last_comment {
+  width: 30%;
+}
+
+table.discussions td.comments_count {
+  width: 5em;
+  text-align: center;
+}
+
+
+table.discussions h3 {
+  margin: 0px;
+}
+
+table.discussions td a {
+  text-decoration: none;
+}
+
+.comment_options {
+  display: none;
+}
+
+.subobject_author .avatar {
+  float: left;
+}
+
+.subobject_author .subobject_author_info {
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
+.subobject {
+  border-bottom: 2px solid #666;
+  margin-bottom: 1em;
+  padding-bottom: 7px;
+}
+
+.object_tasks ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/** File: modules/calendar/stylesheets/print.css **/
+
+.calendar {
+  margin-top: 1em;
+  width: 95%;
+  margin: 1em auto 0em;
+}
+
+.calendar th {
+  text-align: center;
+}
+
+.calendar td {
+  border: 1px solid #666;
+  vertical-align: top;
+  width: 14.2% !important;
+}
+
+.calendar td .day_num {
+  font-weight: bold;
+  float: left;
+  width: 20px;
+  text-align: center;
+}
+
+.calendar td a {
+  text-decoration: none;
+}
+
+.calendar td ul {
+  margin: 0px 0px 0px 22px;
+  padding: 2px 0px 0px 0px;
+  font-size: 0.8em;
+  list-style: none;
+  line-height: 1.6em;
+}
+
+.previousMonth {
+  border-left: 0px !important;
+  border-top: 0px !important;
+}
+
+.nextMonth {
+  border-right: 0px !important;
+  border-bottom: 0px !important;
+}
+
+.calendar_navigation {
+  width: 20%;
+  margin: 0px auto;
+}
+
+.calendar_navigation td {
+  text-align: center;
+  border: 0px;
+  font-size: 0.8em;
+}
+
+.calendar_navigation td a {
+  text-decoration: none;
+}
+
+.calendar_navigation .current {
+  font-size: 1.2em;
+  font-weight: bold;
+  border-bottom: 2px solid #666;
+}
+
+.calendar_navigation .prev,
+.calendar_navigation .next {
+  display: none;
+}
+
+/** File: modules/pages/stylesheets/print.css **/
+
+
+
+/** File: modules/timetracking/stylesheets/print.css **/
+
+#new_record {
+  display: none;
+}
+
+#records_summary {
+  text-align: right;
+  font-weight: bolder;
+}
+
+#records_summary td.export span {
+  display: none;
+}
+
+#time_report_records .date {
+  width: 8em;
+  text-align: left;
+}
+
+#time_report_records .user {
+  width: 10em;
+  text-align: left;
+}
+
+#time_report_records .hours {
+  width: 2em;
+  text-align: right;
+}
+
+#time_report_records .billed {
+  width: 2em;
+  text-align: center;
+}
+
+.rgh
+{
+display : none;
+}

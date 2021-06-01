@@ -1,0 +1,29 @@
+.pagination {
+	margin-top: 30px;
+	border-top: 1px solid #EEEEEE;
+	background: #F8F8F8;
+	display: inline-block;
+	width: 100%;
+}
+.pagination .links, .pagination .results {
+	padding: 4px;
+}
+.pagination .links {
+	float: left;
+}
+.pagination .links a {
+	border: 1px solid #CCCCCC;
+	padding: 4px 7px;
+	text-decoration: none;
+	color: #000000;
+}
+.pagination .links b {
+	border: 1px solid #CCCCCC;
+	padding: 4px 7px;
+	text-decoration: none;
+	color: #000000;
+	background: #FFFFFF;
+}
+.pagination .results {
+	float: right;
+}
