@@ -62,7 +62,7 @@ public class BaseExcel {
 
     }
 
-    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value) {
+    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value, int size) {
 
         FileInputStream excelFile;
         Workbook workbook;
@@ -70,6 +70,12 @@ public class BaseExcel {
             excelFile = new FileInputStream(filepath);
             workbook = new XSSFWorkbook(excelFile);
 
+            while (workbook.getNumberOfSheets() < size) {
+                //workbook.createSheet();
+                Sheet cloneSheet = workbook.cloneSheet(1);
+                Cell cell = cloneSheet.getRow(rowNo).getCell(colNo);
+                cell.setCellValue(value);
+            }
             Sheet sheet = workbook.getSheetAt(no);
             Cell cell = sheet.getRow(rowNo).getCell(colNo);
             cell.setCellValue(value);
@@ -91,7 +97,7 @@ public class BaseExcel {
             Workbook b = WorkbookFactory.create(fin);
             for (int i = 0; i < b.getNumberOfSheets(); i++) {
                 // not entering sheet name, because of duplicated names
-                copySheets(book.createSheet(),b.getSheetAt(i));
+                copySheets(book.createSheet(), b.getSheetAt(i));
             }
         }
         return book;
@@ -99,18 +105,18 @@ public class BaseExcel {
 
     /**
      * @param newSheet the sheet to create from the copy.
-     * @param sheet the sheet to copy.
+     * @param sheet    the sheet to copy.
      */
-    public static void copySheets(Sheet newSheet, Sheet sheet){
+    public static void copySheets(Sheet newSheet, Sheet sheet) {
         copySheets(newSheet, sheet, true);
     }
 
     /**
-     * @param newSheet the sheet to create from the copy.
-     * @param sheet the sheet to copy.
+     * @param newSheet  the sheet to create from the copy.
+     * @param sheet     the sheet to copy.
      * @param copyStyle true copy the style.
      */
-    public static void copySheets(Sheet newSheet, Sheet sheet, boolean copyStyle){
+    public static void copySheets(Sheet newSheet, Sheet sheet, boolean copyStyle) {
         int maxColumnNum = 0;
         Map<Integer, CellStyle> styleMap = (copyStyle) ? new HashMap<Integer, CellStyle>() : null;
         for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
@@ -129,18 +135,18 @@ public class BaseExcel {
     }
 
     /**
-     * @param srcSheet the sheet to copy.
+     * @param srcSheet  the sheet to copy.
      * @param destSheet the sheet to create.
-     * @param srcRow the row to copy.
-     * @param destRow the row to create.
-     * @param styleMap -
+     * @param srcRow    the row to copy.
+     * @param destRow   the row to create.
+     * @param styleMap  -
      */
     public static void copyRow(Sheet srcSheet, Sheet destSheet, Row srcRow, Row destRow, Map<Integer, CellStyle> styleMap) {
         // manage a list of merged zone in order to not insert two times a merged zone
         Set<CellRangeAddressWrapper> mergedRegions = new TreeSet<CellRangeAddressWrapper>();
         destRow.setHeight(srcRow.getHeight());
         // reckoning delta rows
-        int deltaRows = destRow.getRowNum()-srcRow.getRowNum();
+        int deltaRows = destRow.getRowNum() - srcRow.getRowNum();
         // pour chaque row
         for (int j = srcRow.getFirstCellNum(); j <= srcRow.getLastCellNum(); j++) {
             Cell oldCell = srcRow.getCell(j);   // ancienne cell
@@ -153,11 +159,11 @@ public class BaseExcel {
                 copyCell(oldCell, newCell, styleMap);
                 // copy les informations de fusion entre les cellules
                 //System.out.println("row num: " + srcRow.getRowNum() + " , col: " + (short)oldCell.getColumnIndex());
-                CellRangeAddress mergedRegion = getMergedRegion(srcSheet, srcRow.getRowNum(), (short)oldCell.getColumnIndex());
+                CellRangeAddress mergedRegion = getMergedRegion(srcSheet, srcRow.getRowNum(), (short) oldCell.getColumnIndex());
 
                 if (mergedRegion != null) {
                     //System.out.println("Selected merged region: " + mergedRegion.toString());
-                    CellRangeAddress newMergedRegion = new CellRangeAddress(mergedRegion.getFirstRow()+deltaRows, mergedRegion.getLastRow()+deltaRows, mergedRegion.getFirstColumn(),  mergedRegion.getLastColumn());
+                    CellRangeAddress newMergedRegion = new CellRangeAddress(mergedRegion.getFirstRow() + deltaRows, mergedRegion.getLastRow() + deltaRows, mergedRegion.getFirstColumn(), mergedRegion.getLastColumn());
                     //System.out.println("New merged region: " + newMergedRegion.toString());
                     CellRangeAddressWrapper wrapper = new CellRangeAddressWrapper(newMergedRegion);
                     if (isNewMergedRegion(wrapper, mergedRegions)) {
@@ -175,13 +181,13 @@ public class BaseExcel {
      * @param styleMap
      */
     public static void copyCell(Cell oldCell, Cell newCell, Map<Integer, CellStyle> styleMap) {
-        if(styleMap != null) {
-            if(oldCell.getSheet().getWorkbook() == newCell.getSheet().getWorkbook()){
+        if (styleMap != null) {
+            if (oldCell.getSheet().getWorkbook() == newCell.getSheet().getWorkbook()) {
                 newCell.setCellStyle(oldCell.getCellStyle());
-            } else{
+            } else {
                 int stHashCode = oldCell.getCellStyle().hashCode();
                 CellStyle newCellStyle = styleMap.get(stHashCode);
-                if(newCellStyle == null){
+                if (newCellStyle == null) {
                     newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
                     newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
                     styleMap.put(stHashCode, newCellStyle);
@@ -189,7 +195,7 @@ public class BaseExcel {
                 newCell.setCellStyle(newCellStyle);
             }
         }
-        switch(oldCell.getCellType()) {
+        switch (oldCell.getCellType()) {
             case STRING:
                 newCell.setCellValue(oldCell.getStringCellValue());
                 break;
@@ -218,8 +224,8 @@ public class BaseExcel {
      * elle se trouve dans la current row que nous traitons.
      * Si oui, retourne l'objet CellRangeAddress.
      *
-     * @param sheet the sheet containing the data.
-     * @param rowNum the num of the row to copy.
+     * @param sheet   the sheet containing the data.
+     * @param rowNum  the num of the row to copy.
      * @param cellNum the num of the cell to copy.
      * @return the CellRangeAddress created.
      */
@@ -235,8 +241,9 @@ public class BaseExcel {
 
     /**
      * Check that the merged region has been created in the destination sheet.
+     *
      * @param newMergedRegion the merged region to copy or not in the destination sheet.
-     * @param mergedRegions the list containing all the merged region.
+     * @param mergedRegions   the list containing all the merged region.
      * @return true if the merged region is already in the list or not.
      */
     private static boolean isNewMergedRegion(CellRangeAddressWrapper newMergedRegion, Set<CellRangeAddressWrapper> mergedRegions) {
@@ -244,6 +251,7 @@ public class BaseExcel {
     }
 
 }
+
 class CellRangeAddressWrapper implements Comparable<CellRangeAddressWrapper> {
 
     public CellRangeAddress range;
