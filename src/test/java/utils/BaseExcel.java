@@ -62,7 +62,31 @@ public class BaseExcel {
 
     }
 
-    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value, int size) {
+    public void createCloneSheets(String filepath, int size) {
+        FileInputStream excelFile;
+        Workbook workbook;
+        try {
+            excelFile = new FileInputStream(filepath);
+            workbook = new XSSFWorkbook(excelFile);
+
+            while (workbook.getNumberOfSheets() - 2 <= size) {
+                //workbook.createSheet();
+                Sheet cloneSheet = workbook.cloneSheet(1);
+                /*Cell cell = cloneSheet.getRow(rowNo).getCell(colNo);
+                cell.setCellValue(value);*/
+            }
+            excelFile.close();
+
+            FileOutputStream outputStream = new FileOutputStream(filepath);
+            workbook.write(outputStream);
+            workbook.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value) {
 
         FileInputStream excelFile;
         Workbook workbook;
@@ -70,12 +94,6 @@ public class BaseExcel {
             excelFile = new FileInputStream(filepath);
             workbook = new XSSFWorkbook(excelFile);
 
-            while (workbook.getNumberOfSheets() < size) {
-                //workbook.createSheet();
-                Sheet cloneSheet = workbook.cloneSheet(1);
-                Cell cell = cloneSheet.getRow(rowNo).getCell(colNo);
-                cell.setCellValue(value);
-            }
             Sheet sheet = workbook.getSheetAt(no);
             Cell cell = sheet.getRow(rowNo).getCell(colNo);
             cell.setCellValue(value);
