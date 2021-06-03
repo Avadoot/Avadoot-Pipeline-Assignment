@@ -3,12 +3,15 @@ package utils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.WebElement;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+
+import static utils.BaseClass.getValue;
 
 public class BaseExcel {
     public static String[][] readExcel(String filepath, int no) {
@@ -62,18 +65,18 @@ public class BaseExcel {
 
     }
 
-    public void createCloneSheets(String filepath, int size) {
+    public void createCloneSheets(String filepath, int size, List<WebElement> requirementId) {
         FileInputStream excelFile;
         Workbook workbook;
         try {
             excelFile = new FileInputStream(filepath);
             workbook = new XSSFWorkbook(excelFile);
+            int i = 0;
 
             while (workbook.getNumberOfSheets() - 2 <= size) {
-                //workbook.createSheet();
-                Sheet cloneSheet = workbook.cloneSheet(1);
-                /*Cell cell = cloneSheet.getRow(rowNo).getCell(colNo);
-                cell.setCellValue(value);*/
+                workbook.cloneSheet(1);
+                workbook.setSheetName(i + 3, getValue(requirementId.get(i)).trim());
+                i++;
             }
             excelFile.close();
 

@@ -1,3 +1,5 @@
+package utils;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,13 +10,12 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import utils.BaseExcel;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class TestRunner {
+public class BaseClass {
     public static WebDriver driver;
     public static ChromeOptions chromeOptions = new ChromeOptions();
     public static String downloadFolderPath = System.getProperty("user.dir") + "\\testDataOutput\\";
@@ -77,7 +78,7 @@ public class TestRunner {
         List<WebElement> duration = driver.findElements(
                 By.xpath("//*[text()='Duration Remark: ']"));
 
-        excel.createCloneSheets(filepath, clientNames.size());
+        excel.createCloneSheets(filepath, clientNames.size(), requirementId);
 
         for (int i = 0; i < clientNames.size(); i++) {
 
