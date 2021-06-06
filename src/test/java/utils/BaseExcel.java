@@ -1,19 +1,23 @@
 package utils;
 
+import com.google.common.io.Files;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebElement;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static utils.BaseClass.getValue;
 
 public class BaseExcel {
+
+    public static String referenceFile = "input" + "/" + "NeoSOFT-Pipeline-Testing.xlsx";
+    public static File clonedWb;
+    public static String newPath;
+
     public static String[][] readExcel(String filepath, int no) {
 
         String[][] excel = new String[3001][5];
@@ -53,23 +57,26 @@ public class BaseExcel {
         return excel;
     }
 
-    public void createNewSheets(int size) throws IOException {
+    public String createNewWorkbook() throws IOException {
+        File originalWb = new File(referenceFile);
+        clonedWb = new File("output" + "/" + DateTime());
+        clonedWb.mkdirs();
+        newPath = clonedWb.getPath() + "/" + "NeoSOFT-Pipeline-Testing.xlsx";
+        File newFile = new File(newPath);
+        Files.copy(originalWb.getAbsoluteFile(), newFile);
+        return newPath;
+    }
 
-       /* Workbook wb = new HSSFWorkbook();
-
-        for (int i = 0; i < 10; i++) {
-            wb.createSheet(String.valueOf(i));
-            wb.cloneSheet(1);
-            wb.close();
-        }*/
-
+    public static String DateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss");
+        return simpleDateFormat.format(Calendar.getInstance().getTimeInMillis());
     }
 
     public void createCloneSheets(String filepath, int size, List<WebElement> requirementId) {
         FileInputStream excelFile;
         Workbook workbook;
         try {
-            excelFile = new FileInputStream(filepath);
+            excelFile = new FileInputStream(newPath);
             workbook = new XSSFWorkbook(excelFile);
             int i = 0;
 
@@ -80,7 +87,7 @@ public class BaseExcel {
             }
             excelFile.close();
 
-            FileOutputStream outputStream = new FileOutputStream(filepath);
+            FileOutputStream outputStream = new FileOutputStream(newPath);
             workbook.write(outputStream);
             workbook.close();
             outputStream.close();
@@ -94,7 +101,7 @@ public class BaseExcel {
         FileInputStream excelFile;
         Workbook workbook;
         try {
-            excelFile = new FileInputStream(filepath);
+            excelFile = new FileInputStream(newPath);
             workbook = new XSSFWorkbook(excelFile);
 
             Sheet sheet = workbook.getSheetAt(no);
@@ -103,7 +110,7 @@ public class BaseExcel {
 
             excelFile.close();
 
-            FileOutputStream outputStream = new FileOutputStream(filepath);
+            FileOutputStream outputStream = new FileOutputStream(newPath);
             workbook.write(outputStream);
             workbook.close();
             outputStream.close();
@@ -299,7 +306,6 @@ class CellRangeAddressWrapper implements Comparable<CellRangeAddressWrapper> {
         } else {
             return 1;
         }
-
     }
 
 }

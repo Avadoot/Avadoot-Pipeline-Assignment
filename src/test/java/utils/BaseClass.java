@@ -38,7 +38,7 @@ public class BaseClass {
         chromeOptions.setExperimentalOption("localState", chromeLocalStatePref);
         chromeOptions.setExperimentalOption("prefs", chromeLocalStatePref);
 
-        chromeOptions.addArguments("headless");
+        chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("window-size=1280x1024");
         chromeOptions.addArguments("--no-sandbox");
 
@@ -77,6 +77,8 @@ public class BaseClass {
 
         List<WebElement> duration = driver.findElements(
                 By.xpath("//*[text()='Duration Remark: ']"));
+
+        excel.createNewWorkbook();
 
         excel.createCloneSheets(filepath, clientNames.size(), requirementId);
 
