@@ -25,6 +25,8 @@ public class BaseClass {
     public static BaseExcel excel = new BaseExcel();
     public static String filepath = "NeoSOFT-Pipeline-Testing.xlsx";
 
+    public static List<WebElement> clientNames, locations, assignChannel, requirementType, modeOfHiring, requirementId, clientBudget, workingDays, duration;
+
     public static void main(String[] args) throws IOException {
 
         WebDriverManager.chromedriver().setup();
@@ -51,37 +53,37 @@ public class BaseClass {
         Assert.assertTrue(driver.getTitle().contains(expectedPageTitle), "Test Failed");
 
 
-        List<WebElement> clientNames = driver.findElements(
+        clientNames = driver.findElements(
                 By.xpath("//a[contains(@href,'clientresource')]/following-sibling::span[@class='warning'][last()]"));
 
-        List<WebElement> locations = driver.findElements(
+        locations = driver.findElements(
                 By.xpath("//a[contains(@href,'clientresource')]//parent::td//parent::tr//td[5]"));
 
-        List<WebElement> assignChannel = driver.findElements(
+        assignChannel = driver.findElements(
                 By.xpath("//span[text()='Assign Channel: ']//following-sibling::a"));
 
-        List<WebElement> requirementType = driver.findElements(
+        requirementType = driver.findElements(
                 By.xpath("//*[contains(@onclick,'updateClientType')]"));
 
-        List<WebElement> modeOfHiring = driver.findElements(
+        modeOfHiring = driver.findElements(
                 By.xpath("//*[contains(@onclick,'assignChannel')]"));
 
-        List<WebElement> requirementId = driver.findElements(
+        requirementId = driver.findElements(
                 By.xpath("//span[text()='Requirement ID:']"));
 
-        List<WebElement> clientBudget = driver.findElements(
+        clientBudget = driver.findElements(
                 By.xpath("//*[text()='Budget: ']"));
 
-        List<WebElement> workingDays = driver.findElements(
+        workingDays = driver.findElements(
                 By.xpath("//*[text()='Working Days: ']"));
 
-        List<WebElement> duration = driver.findElements(
+        duration = driver.findElements(
                 By.xpath("//*[text()='Duration Remark: ']"));
 
-        excel.createNewWorkbook();
+        //excel.createNewWorkbook();
 
-        excel.createCloneSheets(filepath, clientNames.size(), requirementId);
-
+        excel.createCloneSheets(filepath, clientNames.size(), requirementId, driver);
+/*
         for (int i = 0; i < clientNames.size(); i++) {
 
             excel.writeExcel(filepath, i + 3, 1, 0,
@@ -102,7 +104,7 @@ public class BaseClass {
                     getValue(workingDays.get(i)).trim());
             excel.writeExcel(filepath, i + 3, 3, 4,
                     getValue(duration.get(i)).trim());
-        }
+        }*/
         driver.quit();
     }
 

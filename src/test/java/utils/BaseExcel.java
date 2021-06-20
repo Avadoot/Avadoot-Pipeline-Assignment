@@ -4,12 +4,14 @@ import com.google.common.io.Files;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static utils.BaseClass.*;
 import static utils.BaseClass.getValue;
 
 public class BaseExcel {
@@ -72,22 +74,60 @@ public class BaseExcel {
         return simpleDateFormat.format(Calendar.getInstance().getTimeInMillis());
     }
 
-    public void createCloneSheets(String filepath, int size, List<WebElement> requirementId) {
+    public void createCloneSheets(String filepath, int size, List<WebElement> requirementId, WebDriver driver) {
         FileInputStream excelFile;
         Workbook workbook;
         try {
-            excelFile = new FileInputStream(newPath);
+            excelFile = new FileInputStream(filepath);
             workbook = new XSSFWorkbook(excelFile);
             int i = 0;
+            ArrayList<String> uniqueValues = new ArrayList<>();
 
-            while (workbook.getNumberOfSheets() - 2 <= size) {
+            List<String> sheetName = new ArrayList<>();
+            for (WebElement element : requirementId) {
+                sheetName.add(getValue(element).trim());
+            }
+            List<String> getSheetNames = new ArrayList<>();
+            for (Sheet sheet : workbook) {
+                getSheetNames.add(sheet.getSheetName().trim());
+            }
+            for (String item : sheetName) {
+                if (!getSheetNames.contains(item)) {
+                    uniqueValues.add(item);
+                }
+            }
+            System.out.println(uniqueValues);
+
+
+            for (String element : uniqueValues) {
                 workbook.cloneSheet(1);
-                workbook.setSheetName(i + 3, getValue(requirementId.get(i)).trim());
+                workbook.setSheetName(workbook.getNumberOfSheets() - 1, element);
+                //addDetails(filepath, size, driver);
+
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 1, 0,
+                        clientNames.get(i).getText(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 1, 2,
+                        locations.get(i).getText(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 1, 5,
+                        assignChannel.get(i).getText(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 1, 3,
+                        requirementType.get(i).getText(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 3, 5,
+                        modeOfHiring.get(i).getText(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 1, 1,
+                        getValue(requirementId.get(i)).trim(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 5, 0,
+                        getValue(clientBudget.get(i)).trim(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 5, 2,
+                        getValue(workingDays.get(i)).trim(), workbook, excelFile);
+                writeExcel(filepath, workbook.getNumberOfSheets() - 1, 3, 4,
+                        getValue(duration.get(i)).trim(), workbook, excelFile);
                 i++;
             }
+
             excelFile.close();
 
-            FileOutputStream outputStream = new FileOutputStream(newPath);
+            FileOutputStream outputStream = new FileOutputStream(filepath);
             workbook.write(outputStream);
             workbook.close();
             outputStream.close();
@@ -95,25 +135,50 @@ public class BaseExcel {
             e.printStackTrace();
         }
     }
+/*
+    public void addDetails(String filepath, int size, WebDriver driver) {
 
-    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value) {
+        for (int i = 0; i < size; i++) {
 
-        FileInputStream excelFile;
-        Workbook workbook;
+            writeExcel(filepath, i + 3, 1, 0,
+                    clientNames.get(i).getText());
+            writeExcel(filepath, i + 3, 1, 2,
+                    locations.get(i).getText());
+            writeExcel(filepath, i + 3, 1, 5,
+                    assignChannel.get(i).getText());
+            writeExcel(filepath, i + 3, 1, 3,
+                    requirementType.get(i).getText());
+            writeExcel(filepath, i + 3, 3, 5,
+                    modeOfHiring.get(i).getText());
+            writeExcel(filepath, i + 3, 1, 1,
+                    getValue(requirementId.get(i)).trim());
+            writeExcel(filepath, i + 3, 5, 0,
+                    getValue(clientBudget.get(i)).trim());
+            writeExcel(filepath, i + 3, 5, 2,
+                    getValue(workingDays.get(i)).trim());
+            writeExcel(filepath, i + 3, 3, 4,
+                    getValue(duration.get(i)).trim());
+        }
+    }*/
+
+    public void writeExcel(String filepath, int no, int colNo, int rowNo, String value, Workbook workbook, FileInputStream excelFile) {
+
+   /*     FileInputStream excelFile;
+        Workbook workbook;*/
         try {
-            excelFile = new FileInputStream(newPath);
-            workbook = new XSSFWorkbook(excelFile);
+          /*  excelFile = new FileInputStream(filepath);
+            workbook = new XSSFWorkbook(excelFile);*/
 
             Sheet sheet = workbook.getSheetAt(no);
             Cell cell = sheet.getRow(rowNo).getCell(colNo);
             cell.setCellValue(value);
 
-            excelFile.close();
+            //excelFile.close();
 
-            FileOutputStream outputStream = new FileOutputStream(newPath);
+            FileOutputStream outputStream = new FileOutputStream(filepath);
             workbook.write(outputStream);
-            workbook.close();
-            outputStream.close();
+            /*workbook.close();
+            outputStream.close();*/
         } catch (IOException e) {
             e.printStackTrace();
         }
